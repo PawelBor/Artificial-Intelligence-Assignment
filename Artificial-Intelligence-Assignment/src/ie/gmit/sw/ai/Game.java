@@ -87,6 +87,26 @@ public class Game implements KeyListener{
 			model.set(currentRow, currentCol, '\u0020');
 			model.set(row, col, '5');
 			return true;
+		}else if(model.get(row, col) == '\u0031'){ // Sword Replace
+			System.out.println("Sword Encountered....");
+			model.set(currentRow, currentCol, '\u0020');
+			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			return true;
+		}else if(model.get(row, col) == '\u0033'){ // Bomb Replace
+			System.out.println("Bomb Encountered....");
+			model.set(currentRow, currentCol, '\u0020');
+			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			return true;
+		}else if(model.get(row, col) == '\u0034'){ //HBomb Replace
+			System.out.println("HBomb Encountered....");
+			model.set(currentRow, currentCol, '\u0020');
+			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			return true;
+		}else if(model.get(row, col) == '\u0032'){ //Help encountered
+			System.out.println("Help Encountered....");
+			model.set(currentRow, currentCol, '\u0020');
+			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			return true;
 		}else{
 			return false; //Can't move
 		}

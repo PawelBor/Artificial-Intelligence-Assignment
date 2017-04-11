@@ -8,12 +8,16 @@ public class Player{
 	
 	private List<Weapon> items = new ArrayList<>();
 	private Weapon playerWeapon;
+	Health playerHealth;
+	
+	public void Player(){
+		playerHealth  = new Health();
+		playerHealth.setHealth(100);
+	}
 	
 	public void Player(int health){
-		Health playerHealth = new Health();
+		playerHealth  = new Health();
 		playerHealth.setHealth(health);
-		
-		
 	}
 	
 	//Accessor methods
@@ -24,5 +28,9 @@ public class Player{
 	
 	public Weapon getWeapon(){
 		return playerWeapon;
+	}
+	
+	public void takeDamage(int damage){
+		playerHealth.setHealth(playerHealth.getHealth() - damage);
 	}
 }

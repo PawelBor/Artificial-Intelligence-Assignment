@@ -16,7 +16,6 @@ public class Node {
 		this.player = player;
 	}
 	
-	
 	public Weapon getWeapon() {
 		return weapon;
 	}

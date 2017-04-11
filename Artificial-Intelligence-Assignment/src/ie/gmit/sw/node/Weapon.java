@@ -5,8 +5,8 @@ public class Weapon {
 	private int weaponCount;
 	private NodeType weaponType;
 	
-	public Weapon(int weaponDamage, int weaponCount, NodeType weaponType){
-		setWeaponCount(weaponCount);
+	public Weapon(int weaponDamage, NodeType weaponType){
+		addWeaponCount();
 		setWeaponDamage(weaponDamage);
 		setWeaponType(weaponType);
 	}
@@ -27,8 +27,8 @@ public class Weapon {
 		return weaponCount;
 	}
 
-	public void setWeaponCount(int weaponCount) {
-		this.weaponCount = weaponCount;
+	public void addWeaponCount() {
+		this.weaponCount++;
 	}
 	
 	//get set weaponType

@@ -1,5 +1,8 @@
 package ie.gmit.sw.ai;
 
+import ie.gmit.sw.node.Node;
+import ie.gmit.sw.node.NodeType;
+import ie.gmit.sw.node.Weapon;
 
 public class Maze {
 	private char[][] maze;
@@ -35,11 +38,20 @@ public class Maze {
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
 		
+		Node node = new Node();
+		
 		while (counter < feature){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 			
 			if (maze[row][col] == replace){
+				
+				if(feature == '\u0031')
+				{
+					Weapon weapon = new Weapon(50, NodeType.Sword);
+					node.setWeapon(weapon);
+				}
+				
 				maze[row][col] = feature;
 				counter++;
 			}
