@@ -1,36 +1,36 @@
 package ie.gmit.sw.characters;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import ie.gmit.sw.node.*;
 
-public class Player{
+public class Player extends Character implements Inventory{
 	
-	private List<Weapon> items = new ArrayList<>();
-	private Weapon playerWeapon;
-	Health playerHealth;
+	private List<Item> inventory = new ArrayList<>();
 	
-	public void Player(){
-		playerHealth  = new Health();
-		playerHealth.setHealth(100);
+	// Every Player can carry items so it should implement this
+	
+	@Override
+	public void addtoInventory(Item item) {
+		inventory.add(item);
+	}
+
+	@Override
+	public void removeFromInventory(Item item) {
+		// Iterate through the inventory and remove the item specified
+		
+		for(Iterator<Item> i = inventory.iterator(); i.hasNext();) 
+		{
+			if(i.equals(item)){
+				inventory.remove(i);
+			}
+		}
+	}
+
+	@Override
+	public int getInventorySize(Item item) {
+		return inventory.size();
 	}
 	
-	public void Player(int health){
-		playerHealth  = new Health();
-		playerHealth.setHealth(health);
-	}
-	
-	//Accessor methods
-	
-	public void setWeapon(Weapon playerWeapon){
-		this.playerWeapon = playerWeapon;
-	}
-	
-	public Weapon getWeapon(){
-		return playerWeapon;
-	}
-	
-	public void takeDamage(int damage){
-		playerHealth.setHealth(playerHealth.getHealth() - damage);
-	}
 }

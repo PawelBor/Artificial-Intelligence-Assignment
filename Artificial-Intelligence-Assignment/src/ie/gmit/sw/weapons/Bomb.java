@@ -19,7 +19,4 @@ public class Bomb extends Weapon{
 		super(80, NodeType.Bomb);
 		radius = 10;
 	}
-	
-	
-
 }

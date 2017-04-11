@@ -1,16 +1,17 @@
 package ie.gmit.sw.node;
 
-public class Weapon {
+public class Weapon extends Item{
 	private int weaponDamage;
 	private int weaponCount;
 	private NodeType weaponType;
 	
 	public Weapon(int weaponDamage, NodeType weaponType){
+		super(weaponType);
 		addWeaponCount();
 		setWeaponDamage(weaponDamage);
 		setWeaponType(weaponType);
 	}
-	
+
 	//Accessor Methods
 	
 	//get set weaponDamage
