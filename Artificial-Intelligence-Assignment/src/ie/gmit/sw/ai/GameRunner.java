@@ -4,14 +4,17 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 public class GameRunner implements KeyListener{
+	
 	private static final int MAZE_DIMENSION = 100;
 	private static final int IMAGE_COUNT = 14;
+	
 	private GameView view;
 	private Maze model;
 	private int currentRow;
 	private int currentCol;
 	
-	public GameRunner() throws Exception{
+	public GameRunner() throws Exception
+	{
 		model = new Maze(MAZE_DIMENSION);
     	view = new GameView(model);
     	
@@ -65,6 +68,7 @@ public class GameRunner implements KeyListener{
         
         updateView();       
     }
+    
     public void keyReleased(KeyEvent e) {} //Ignore
 	public void keyTyped(KeyEvent e) {} //Ignore
 
