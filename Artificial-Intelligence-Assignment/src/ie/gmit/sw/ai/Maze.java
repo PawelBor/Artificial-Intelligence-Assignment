@@ -5,16 +5,15 @@ public class Maze {
 	private char[][] maze;
 	public Maze(int dimension){
 		maze = new char[dimension][dimension];
-		init();
-		buildMaze();
+		init(); // Fills the entire map with hedges.
+		buildMaze(); // Overwrites hedges to spaces.
 		
 		int featureNumber = (int)((dimension * dimension) * 0.01);
 		addFeature('\u0031', '0', featureNumber); //1 is a sword, 0 is a hedge
 		addFeature('\u0032', '0', featureNumber); //2 is help, 0 is a hedge
 		addFeature('\u0033', '0', featureNumber); //3 is a bomb, 0 is a hedge
 		addFeature('\u0034', '0', featureNumber); //4 is a hydrogen bomb, 0 is a hedge
-		
-		featureNumber = (int)((dimension * dimension) * 0.01);
+
 		addFeature('\u0036', '0', featureNumber); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
 		addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
@@ -35,6 +34,7 @@ public class Maze {
 	
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
+		
 		while (counter < feature){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());

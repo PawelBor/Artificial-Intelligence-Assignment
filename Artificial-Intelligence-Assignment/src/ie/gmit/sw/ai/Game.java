@@ -3,6 +3,9 @@ package ie.gmit.sw.ai;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import ie.gmit.sw.node.NodeType;
+import ie.gmit.sw.node.Weapon;
 public class Game implements KeyListener{
 	
 	private static final int MAZE_DIMENSION = 100;
@@ -38,6 +41,12 @@ public class Game implements KeyListener{
         f.pack();
         f.setVisible(true);
 	}
+	
+	/*
+	 * private void optainedWeapon(){
+		Weapon playerWeapon = new Weapon(0, 0, NodeType.Sword);
+	}
+	 */
 	
 	private void placePlayer(){   	
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
