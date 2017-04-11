@@ -3,7 +3,7 @@ package ie.gmit.sw.ai;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-public class GameRunner implements KeyListener{
+public class Game implements KeyListener{
 	
 	private static final int MAZE_DIMENSION = 100;
 	private static final int IMAGE_COUNT = 14;
@@ -13,7 +13,7 @@ public class GameRunner implements KeyListener{
 	private int currentRow;
 	private int currentCol;
 	
-	public GameRunner() throws Exception
+	public Game() throws Exception
 	{
 		model = new Maze(MAZE_DIMENSION);
     	view = new GameView(model);
@@ -105,7 +105,4 @@ public class GameRunner implements KeyListener{
 		return sprites;
 	}
 	
-	public static void main(String[] args) throws Exception{
-		new GameRunner();
-	}
 }
