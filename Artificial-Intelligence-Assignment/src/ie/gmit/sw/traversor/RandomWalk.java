@@ -1,7 +1,7 @@
 package ie.gmit.sw.traversor;
 
-import ie.gmit.sw.ai.Maze.*;
 import ie.gmit.sw.node.Node;
+
 public class RandomWalk implements Traversator{
 	public void traverse(Node[][] maze, Node node) {
         long time = System.currentTimeMillis();
@@ -23,7 +23,7 @@ public class RandomWalk implements Traversator{
 			}
 			
 			try { //Simulate processing each expanded node
-				Thread.sleep(1);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

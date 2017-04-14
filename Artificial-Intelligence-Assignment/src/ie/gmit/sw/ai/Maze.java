@@ -8,6 +8,7 @@ import ie.gmit.sw.traversor.Traversator;
 
 public class Maze {
 	private char[][] maze;
+	
 	public Maze(int dimension){
 		maze = new char[dimension][dimension];
 		init(); // Fills the entire map with hedges.
@@ -40,7 +41,7 @@ public class Maze {
 	private void addFeature(char feature, char replace, int number){
 		int counter = 0;
 		
-		while (counter < feature){
+		while (counter < feature){// if not a hedge
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
 			
@@ -49,15 +50,7 @@ public class Maze {
 				maze[row][col] = feature;
 				counter++;
 				
-				if(feature == '\u0036')
-				{
-					// the current location of the Spartan
-			    	Node goal = new Node(400,400); 
-			    	Node[][] x = new Node[800][800];
-			    	
-			        Traversator t = new BestFirstTraversator(goal);
-			        t.traverse(x,x[row][col]);
-				}
+				
 			}
 		}
 	}

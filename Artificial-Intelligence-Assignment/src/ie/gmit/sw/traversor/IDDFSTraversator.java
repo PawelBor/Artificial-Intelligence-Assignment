@@ -2,8 +2,8 @@ package ie.gmit.sw.traversor;
 
 import java.awt.Color;
 
-import ie.gmit.sw.ai.Maze.*;
 import ie.gmit.sw.node.Node;
+
 public class IDDFSTraversator implements Traversator{
 	private Node[][] maze;
 	private boolean keepRunning = true;

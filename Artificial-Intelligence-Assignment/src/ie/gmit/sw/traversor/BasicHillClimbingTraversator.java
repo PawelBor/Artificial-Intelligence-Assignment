@@ -1,6 +1,5 @@
 package ie.gmit.sw.traversor;
 
-import ie.gmit.sw.ai.Maze.*;
 import ie.gmit.sw.node.Node;
 
 public class BasicHillClimbingTraversator implements Traversator{

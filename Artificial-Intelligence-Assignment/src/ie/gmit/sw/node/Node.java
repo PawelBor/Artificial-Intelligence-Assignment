@@ -5,10 +5,6 @@ import java.awt.Color;
 import ie.gmit.sw.characters.*;
 
 public class Node {
-	private Player player;
-	private Weapon weapon;
-	private Enemy enemy;
-	
 	public enum Direction {North, South, East, West};
 	private Node parent;
 	private Color color = Color.BLACK;
@@ -101,7 +97,7 @@ public class Node {
 	}
 
 	public void setVisited(boolean visited) {
-		//this.color = Color.BLUE;
+		this.color = Color.BLUE;
 		this.visited = visited;
 	}
 
@@ -131,29 +127,5 @@ public class Node {
 
 	public String toString() {
 		return "[" + row + "/" + col + "]";
-	}
-	
-	// Access methods
-	
-	public Player getPlayer() {
-		return player;
-	}
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-	
-	public Weapon getWeapon() {
-		return weapon;
-	}
-	public void setWeapon(Weapon weapon) {
-		this.weapon = weapon;
-	}
-	
-	
-	public Enemy getEnemy() {
-		return enemy;
-	}
-	public void setEnemy(Enemy enemy) {
-		this.enemy = enemy;
 	}
 }
