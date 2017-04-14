@@ -4,8 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import ie.gmit.sw.characters.Player;
+import ie.gmit.sw.node.Node;
 import ie.gmit.sw.node.NodeType;
 import ie.gmit.sw.node.Weapon;
+import ie.gmit.sw.traversor.BestFirstTraversator;
+import ie.gmit.sw.traversor.Traversator;
+import ie.gmit.sw.weapons.Bomb;
+import ie.gmit.sw.weapons.HBomb;
+import ie.gmit.sw.weapons.Sword;
 public class Game implements KeyListener{
 	
 	private static final int MAZE_DIMENSION = 100;
@@ -13,23 +20,29 @@ public class Game implements KeyListener{
 	
 	private GameView view;
 	private Maze model;
+	private Player spartan;
 	private int currentRow;
 	private int currentCol;
 	
+	private static final int MAZE_WIDTH = 50;
+	private Node[][] maze;
+	private Node goal;
+	
 	public Game() throws Exception
 	{
-		model = new Maze(MAZE_DIMENSION);
-    	view = new GameView(model);
+		model = new Maze(MAZE_DIMENSION);// Create new Maze.
+    	view = new GameView(model); // Create game view from the maze.
     	
     	Sprite[] sprites = getSprites();
-    	view.setSprites(sprites);
+    	view.setSprites(sprites); // Add image array to the maze view.
     	
-    	placePlayer();
-    	
+    	placePlayer(); // Add the player to the map at a random location.
+
     	Dimension d = new Dimension(GameView.DEFAULT_VIEW_SIZE, GameView.DEFAULT_VIEW_SIZE);
     	view.setPreferredSize(d);
     	view.setMinimumSize(d);
     	view.setMaximumSize(d);
+    	view.setCurrentPosition(spartan.getPos_y(), spartan.getPos_x());
     	
     	JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,13 +62,19 @@ public class Game implements KeyListener{
 	 */
 	
 	private void placePlayer(){   	
+		
     	currentRow = (int) (MAZE_DIMENSION * Math.random());
     	currentCol = (int) (MAZE_DIMENSION * Math.random());
+    	
+    	spartan = new Player();
+    	spartan.setHealth(100);
+
     	model.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
-    	updateView(); 		
+    	updateView();
 	}
 	
 	private void updateView(){
+		spartan.setPos(currentCol, currentRow);
 		view.setCurrentRow(currentRow);
 		view.setCurrentCol(currentCol);
 	}
@@ -88,17 +107,29 @@ public class Game implements KeyListener{
 			model.set(row, col, '5');
 			return true;
 		}else if(model.get(row, col) == '\u0031'){ // Sword Replace
-			System.out.println("Sword Encountered....");
+			System.out.println("Sword Encountered....");// Add the sword to inventory
+			
+			Sword sword = new Sword(30, NodeType.Sword); // Create the sword
+			spartan.addtoInventory(sword);
+			
 			model.set(currentRow, currentCol, '\u0020');
 			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else if(model.get(row, col) == '\u0033'){ // Bomb Replace
 			System.out.println("Bomb Encountered....");
+			
+			Bomb bomb = new Bomb(100, NodeType.Bomb); // Create the bomb
+			spartan.addtoInventory(bomb);// Add the bomb to inventory
+			
 			model.set(currentRow, currentCol, '\u0020');
 			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else if(model.get(row, col) == '\u0034'){ //HBomb Replace
 			System.out.println("HBomb Encountered....");
+			
+			HBomb hbomb = new HBomb(100, NodeType.HBomb); // Create the bomb
+			spartan.addtoInventory(hbomb);// Add the bomb to inventory
+			
 			model.set(currentRow, currentCol, '\u0020');
 			model.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
 			return true;

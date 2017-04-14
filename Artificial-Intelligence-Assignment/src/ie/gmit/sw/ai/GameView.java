@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 public class GameView extends JPanel implements ActionListener{
 	private static final long serialVersionUID = 1L;
-	public static final int DEFAULT_VIEW_SIZE = 810;	
+	public static final int DEFAULT_VIEW_SIZE = 800;	
 	private int cellspan = 5;	
 	private int cellpadding = 2;
 	private Maze maze;
@@ -25,6 +25,11 @@ public class GameView extends JPanel implements ActionListener{
 		setDoubleBuffered(true);
 		timer = new Timer(300, this);
 		timer.start();
+	}
+	
+	public void setCurrentPosition(int row, int col){
+		this.currentRow = row;
+		this.currentCol = col;
 	}
 	
 	public void setCurrentRow(int row) {
