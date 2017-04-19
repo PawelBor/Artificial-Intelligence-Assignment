@@ -14,12 +14,23 @@ public class Node {
 	private int row = -1;
 	private int col = -1;
 	private int distance;
+	private Enemy enemy = null;
+	char type;
 	
-	public Node(int row, int col) {
+	public Node(int row, int col, char type) {
 		this.row = row;
 		this.col = col;
+		this.type = type;
 	}
 
+	public void setType(char type){
+		this.type = type;
+	}
+
+	public char getType()
+	{
+		return this.type;
+	}
 	public int getRow() {
 		return row;
 	}
@@ -55,10 +66,17 @@ public class Node {
 	public Node[] children(Node[][] maze){		
 		java.util.List<Node> children = new java.util.ArrayList<Node>();
 				
-		if (row > 0 && maze[row - 1][col].hasDirection(Direction.South)) children.add(maze[row - 1][col]); //Add North
-		if (row < maze.length - 1 && maze[row + 1][col].hasDirection(Direction.North)) children.add(maze[row + 1][col]); //Add South
-		if (col > 0 && maze[row][col - 1].hasDirection(Direction.East)) children.add(maze[row][col - 1]); //Add West
-		if (col < maze[row].length - 1 && maze[row][col + 1].hasDirection(Direction.West)) children.add(maze[row][col + 1]); //Add East
+		if (row > 0 && maze[row - 1][col].hasDirection(Direction.South))
+			children.add(maze[row - 1][col]); //Add North
+		
+		if (row < maze.length - 1 && maze[row + 1][col].hasDirection(Direction.North)) 
+			children.add(maze[row + 1][col]); //Add South
+		
+		if (col > 0 && maze[row][col - 1].hasDirection(Direction.East)) 
+			children.add(maze[row][col - 1]); //Add West
+		
+		if (col < maze[row].length - 1 && maze[row][col + 1].hasDirection(Direction.West)) 
+			children.add(maze[row][col + 1]); //Add East
 		
 		return (Node[]) children.toArray(new Node[children.size()]);
 	}
@@ -127,5 +145,17 @@ public class Node {
 
 	public String toString() {
 		return "[" + row + "/" + col + "]";
+	}
+
+	public void setEnemy(Enemy enemy) {
+		this.enemy = enemy;
+	}
+	
+	public boolean isEnemy()
+	{
+		if(enemy == null)
+			return false;
+		
+		return true;
 	}
 }

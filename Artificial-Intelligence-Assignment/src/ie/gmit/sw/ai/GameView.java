@@ -15,7 +15,7 @@ public class GameView extends JPanel implements ActionListener{
 	private int currentRow;
 	private int currentCol;
 	private boolean zoomOut = false;
-	private int imageIndex = -1;
+	private int imageIndex = 0;
 	private int offset = 48; //The number 0 is ASCII 48.
 	private Color[] reds = {new Color(255,160,122), new Color(139,0,0), new Color(255, 0, 0)}; //Animate enemy "dots" to make them easier to see
 	
@@ -65,11 +65,11 @@ public class GameView extends JPanel implements ActionListener{
         		int x1 = col * size;
         		int y1 = row * size;
         		
-        		char ch = '0';
+        		char ch = 'z';
        		
         		if (zoomOut){
-        			ch = maze.get(row, col);
-        			if (ch >= '5'){
+        			ch = maze.get(row, col).getType();
+        			if (ch == 'p' || ch == 'm'){
 	        			if (row == currentRow && col == currentCol){
 	        				g2.setColor(Color.YELLOW);
 	        			}else{
@@ -78,17 +78,41 @@ public class GameView extends JPanel implements ActionListener{
         				g2.fillRect(x1, y1, size, size);
         			}
         		}else{
-        			ch = maze.get(currentRow - cellpadding + row, currentCol - cellpadding + col);
+        			ch = maze.get(currentRow - cellpadding + row, currentCol - cellpadding + col).getType();
         		}
-        		
-        		imageIndex = (int) ch;
-        		imageIndex -= offset;
-        		if (imageIndex < 0){
-        			g2.setColor(Color.LIGHT_GRAY);//Empty cell
-        			g2.fillRect(x1, y1, size, size);   			
-        		}else{
-        			g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
-        		}
+
+        		if(ch == 's')
+    			{
+        			imageIndex = 1;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'h')
+    			{
+    				imageIndex = 2;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}else if(ch == 'm')
+    			{
+    				imageIndex = 6;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'b')
+    			{
+    				imageIndex = 3;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'o')
+    			{
+    				imageIndex = 4;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'p')
+    			{
+    				imageIndex = 5;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'w')	
+    			{
+    				imageIndex = 0;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}
+    			else if(ch == 'e')
+	    		{
+	    			g2.setColor(Color.LIGHT_GRAY);//Empty cell
+	    			g2.fillRect(x1, y1, size, size); 
+	    		}
         	}
         }
 	}

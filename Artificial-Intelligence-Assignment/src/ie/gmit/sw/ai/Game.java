@@ -1,17 +1,15 @@
 package ie.gmit.sw.ai;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JFrame;
 
 import ie.gmit.sw.characters.Player;
 import ie.gmit.sw.node.Node;
 import ie.gmit.sw.node.NodeType;
-import ie.gmit.sw.node.Weapon;
-import ie.gmit.sw.traversor.AStarTraversator;
-import ie.gmit.sw.traversor.BestFirstTraversator;
-import ie.gmit.sw.traversor.BruteForceTraversator;
-import ie.gmit.sw.traversor.IDAStarTraversator;
 import ie.gmit.sw.traversor.RandomWalk;
 import ie.gmit.sw.traversor.Traversator;
 import ie.gmit.sw.weapons.Bomb;
@@ -55,13 +53,16 @@ public class Game implements KeyListener{
         f.pack();
         f.setVisible(true);
         
-        
-        Node targetNode = new Node(30,30);
+        //System.out.println(maze.toString()); 
+
+        Node targetNode = new Node(spartan.getPos_y(),spartan.getPos_x(),'p');
         targetNode.setGoalNode(true);
-        
+          
         Traversator t = new RandomWalk();
-        Node[][] x = new Node[50][50];
-        t.traverse(x, x[0][0]);
+        Node[][] mapsss = new Node[GameView.DEFAULT_VIEW_SIZE][GameView.DEFAULT_VIEW_SIZE];
+        Node spider2 = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm');
+        
+        t.traverse(mapsss, spider2);
 	}
 	
 	/*
@@ -78,7 +79,7 @@ public class Game implements KeyListener{
     	spartan = new Player();
     	spartan.setHealth(100);
 
-    	maze.set(currentRow, currentCol, '5'); //A Spartan warrior is at index 5
+    	maze.set(currentRow, currentCol, 'p');
     	updateView();
 	}
 	
@@ -99,7 +100,8 @@ public class Game implements KeyListener{
         	if (isValidMove(currentRow + 1, currentCol)) currentRow++;        	  	
         }else if (e.getKeyCode() == KeyEvent.VK_Z){
         	gameView.toggleZoom();
-        }else{
+        }
+        else{
         	return;
         }
         
@@ -111,46 +113,41 @@ public class Game implements KeyListener{
 
     
 	private boolean isValidMove(int row, int col){
-		if (row <= maze.size() - 1 && col <= maze.size() - 1 && maze.get(row, col) == ' '){
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5');
+		if (row <= maze.size() - 1 && col <= maze.size() - 1 && maze.get(row, col).getType() == 'e'){
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'p');
 			return true;
-		}else if(maze.get(row, col) == '\u0031'){ // Sword Replace
+		}else if(maze.get(row, col).getType() == 's'){ // Sword Replace
 			System.out.println("Sword Encountered....");// Add the sword to inventory
 			
 			Sword sword = new Sword(30, NodeType.Sword); // Create the sword
 			spartan.addtoInventory(sword);
 			
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'p');
+			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
 			return true;
-		}else if(maze.get(row, col) == '\u0033'){ // Bomb Replace
+		}else if(maze.get(row, col).getType() == 'b'){ // Bomb Replace
 			System.out.println("Bomb Encountered....");
 			
 			Bomb bomb = new Bomb(100, NodeType.Bomb); // Create the bomb
 			spartan.addtoInventory(bomb);// Add the bomb to inventory
 			
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'p');
+			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
 			return true;
-		}else if(maze.get(row, col) == '\u0034'){ //HBomb Replace
+		}else if(maze.get(row, col).getType() == 'o'){ //HBomb Replace
 			System.out.println("HBomb Encountered....");
 			
 			HBomb hbomb = new HBomb(100, NodeType.HBomb); // Create the bomb
 			spartan.addtoInventory(hbomb);// Add the bomb to inventory
 			
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'p');
+			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
 			return true;
-		}else if(maze.get(row, col) == '\u0032'){ //Help encountered
+		}else if(maze.get(row, col).getType() == 'h'){ //Help encountered
 			System.out.println("Help Encountered....");
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
-			return true;
-		}else if(maze.get(row, col) == '\u0032'){ //Help encountered
-			System.out.println("Help Encountered....");
-			maze.set(currentRow, currentCol, '\u0020');
-			maze.set(row, col, '5'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'p');
+			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else{
 			return false; //Can't move
