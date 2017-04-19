@@ -74,9 +74,7 @@ public class Maze {
 		if(feature_n != 0){// Create the enemy
 			maze[row][col].setType('s');
 			
-			Sword sword = new Sword(30, NodeType.Sword);	
-			//maze[row][col].setWeapon(sword);
-			
+			Sword sword = new Sword(30, NodeType.Sword);
 		}else{
 			recursiveAddFeature(feature);
 		}

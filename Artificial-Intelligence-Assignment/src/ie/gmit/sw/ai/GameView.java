@@ -8,7 +8,7 @@ public class GameView extends JPanel implements ActionListener{
 	public static final int DEFAULT_VIEW_SIZE = 800;	
 	private int cellspan = 5;	
 	private int cellpadding = 2;
-	private Maze maze;
+	public static Maze maze;
 	private Sprite[] sprites;
 	private int enemy_state = 5;
 	private Timer timer;

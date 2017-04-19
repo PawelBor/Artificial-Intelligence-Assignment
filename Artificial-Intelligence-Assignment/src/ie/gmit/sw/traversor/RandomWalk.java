@@ -1,5 +1,6 @@
 package ie.gmit.sw.traversor;
 
+import ie.gmit.sw.ai.GameView;
 import ie.gmit.sw.node.Node;
 
 public class RandomWalk implements Traversator{
@@ -16,6 +17,9 @@ public class RandomWalk implements Traversator{
 		boolean complete = false;
 		
 		while(visitCount <= steps && node != null){		
+			
+			Node prevMove = node;
+			
 			node.setVisited(true);	
 			visitCount++;
 		
@@ -28,7 +32,7 @@ public class RandomWalk implements Traversator{
 			
 			//Simulate processing each expanded node
 			try {
-				Thread.sleep(5);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -36,11 +40,21 @@ public class RandomWalk implements Traversator{
 		
 			//Pick a random adjacent node
         	Node[] children = node.children(maze);
-        	node = children[(int)(children.length * Math.random())];	
+        	node = children[(int)(children.length * Math.random())];
+        	
+        	enemyMovement(node,prevMove);
         	
 		}// end while
 		
 		if (!complete) System.out.println("*** Out of steps....");
 	}
+	
+	public void enemyMovement(Node node, Node prevMove)
+    {
+    	if (node.getRow() <= GameView.maze.size() - 1 && node.getCol() <= GameView.maze.size() - 1 && GameView.maze.get(node.getRow(), node.getCol()).getType() == 'e'){
+    		GameView.maze.set(prevMove.getRow(), prevMove.getCol(), 'e');
+    		GameView.maze.set(node.getRow(), node.getCol(), 'm');		
+		}
+    }
 
 }

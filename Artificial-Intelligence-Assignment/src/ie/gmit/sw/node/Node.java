@@ -64,21 +64,34 @@ public class Node {
 	}
 	
 	public Node[] children(Node[][] maze){		
-		java.util.List<Node> children = new java.util.ArrayList<Node>();
-				
-		if (row > 0 && maze[row - 1][col].hasDirection(Direction.South))
-			children.add(maze[row - 1][col]); //Add North
-		
-		if (row < maze.length - 1 && maze[row + 1][col].hasDirection(Direction.North)) 
-			children.add(maze[row + 1][col]); //Add South
-		
-		if (col > 0 && maze[row][col - 1].hasDirection(Direction.East)) 
-			children.add(maze[row][col - 1]); //Add West
-		
-		if (col < maze[row].length - 1 && maze[row][col + 1].hasDirection(Direction.West)) 
-			children.add(maze[row][col + 1]); //Add East
-		
-		return (Node[]) children.toArray(new Node[children.size()]);
+		// Gets all four children available.
+				Node[] children = new Node[4];
+				if (col - 1 >= 0 && maze[row][col - 1].getType() != 'w')
+					children[0] = maze[row][col - 1]; // A West edge
+				if (col + 1 < maze[row].length && maze[row][col + 1].getType() != 'w')
+					children[1] = maze[row][col + 1]; // An East Edge
+				if (row - 1 >= 0 && maze[row - 1][col].getType() != 'w')
+					children[2] = maze[row - 1][col]; // A North edge
+				if (row + 1 < maze.length && maze[row + 1][col].getType() != 'w')
+					children[3] = maze[row + 1][col]; // An South Edge
+
+				int counter = 0;
+				for (int i = 0; i < children.length; i++) { // goes through each child
+					if (children[i] != null) // if child is not empty
+						counter++; // increment counter
+				}
+
+				// this makes sure the array length is correct (2, 3 or 4)
+				Node[] tmp = new Node[counter]; // array with length of 2, 3 or 4
+				int index = 0;
+				for (int i = 0; i < children.length; i++) {// goes through each child
+					if (children[i] != null) { // copy all children into tmp
+						tmp[index] = children[i];
+						index++;
+					}
+				}
+
+				return tmp;
 	}
 
 	public Node[] adjacentNodes(Node[][] maze){

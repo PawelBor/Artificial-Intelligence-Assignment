@@ -62,7 +62,7 @@ public class Game implements KeyListener{
         Node[][] mapsss = new Node[GameView.DEFAULT_VIEW_SIZE][GameView.DEFAULT_VIEW_SIZE];
         Node spider2 = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm');
         
-        t.traverse(mapsss, spider2);
+        t.traverse(maze.getMaze(), spider2);
 	}
 	
 	/*
@@ -107,6 +107,8 @@ public class Game implements KeyListener{
         
         updateView();       
     }
+    
+    
     
     public void keyReleased(KeyEvent e) {} //Ignore
 	public void keyTyped(KeyEvent e) {} //Ignore
