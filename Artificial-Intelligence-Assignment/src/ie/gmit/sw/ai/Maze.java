@@ -14,15 +14,17 @@ public class Maze {
 		init(); // Fills the entire map with hedges.
 		buildMaze(); // Overwrites hedges to spaces on random location.
 		
-		addFeature('\u0031', '0', 5); //1 is a sword, 0 is a hedge
-		addFeature('\u0032', '0', 3); //2 is help, 0 is a hedge
-		addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
-		addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
+		
+		addFeature('\u0031', '0', 50); //1 is a sword, 0 is a hedge
+		addFeature('\u0032', '0', 30); //2 is help, 0 is a hedge
+		//addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
+		//addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
 
+		
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
-		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
-		addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
+		//addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		//addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
 		
 		
 		/*addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge

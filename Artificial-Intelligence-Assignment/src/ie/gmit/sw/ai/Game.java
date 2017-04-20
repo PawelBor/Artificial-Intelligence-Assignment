@@ -4,12 +4,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
 import ie.gmit.sw.characters.Player;
 import ie.gmit.sw.node.Node;
 import ie.gmit.sw.node.NodeType;
+import ie.gmit.sw.traversor.AStarTraversator;
 import ie.gmit.sw.traversor.RandomWalk;
 import ie.gmit.sw.traversor.Traversator;
 import ie.gmit.sw.weapons.Bomb;
@@ -52,17 +55,36 @@ public class Game implements KeyListener{
         f.pack();
         f.setVisible(true);
         
-        System.out.println(maze.toString());
+        //System.out.println(maze.toString());
         
-        Node targetNode = new Node(spartan.getPos_y(),spartan.getPos_x(),'p');
-        targetNode.setGoalNode(true);
-          
-        Traversator t = new RandomWalk();
-        Node spider2 = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm');
-        
-        t.traverse(maze.getMaze(), spider2);
+        initSpiderMovement();
+         
 	}
 	
+	// Multi threaded for every single spider.
+	private void initSpiderMovement() throws InterruptedException {
+		
+		Node targetNode = new Node(spartan.getPos_y(),spartan.getPos_x(),'p');
+        targetNode.setGoalNode(true);
+        
+        Node blackSpider = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm'); 
+    
+        ExecutorService executor = Executors.newFixedThreadPool(4); 
+        
+        Runnable worker = new ThreadedPathfinding("randomWalk", blackSpider, maze, targetNode);  
+        executor.execute(worker);//calling execute method of ExecutorService
+
+        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');
+       
+        Runnable secondWorker = new ThreadedPathfinding("aStar", blueSpider, maze, targetNode);  
+        executor.execute(secondWorker);//calling execute method of ExecutorService
+        
+        executor.shutdown();  
+        
+        while (!executor.isTerminated()) {   } 
+		
+	}
+
 	/*
 	 * private void optainedWeapon(){
 		Weapon playerWeapon = new Weapon(0, 0, NodeType.Sword);
