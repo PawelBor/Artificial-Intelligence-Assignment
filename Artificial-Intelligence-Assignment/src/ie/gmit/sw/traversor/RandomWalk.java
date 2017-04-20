@@ -53,7 +53,7 @@ public class RandomWalk implements Traversator{
     {
     	if (node.getRow() <= GameView.maze.size() - 1 && node.getCol() <= GameView.maze.size() - 1 && GameView.maze.get(node.getRow(), node.getCol()).getType() == 'e'){
     		GameView.maze.set(prevMove.getRow(), prevMove.getCol(), 'e');
-    		GameView.maze.set(node.getRow(), node.getCol(), 'm');		
+    		GameView.maze.set(node.getRow(), node.getCol(), '6');		
 		}
     }
 

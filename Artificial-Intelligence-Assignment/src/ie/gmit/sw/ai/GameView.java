@@ -69,7 +69,7 @@ public class GameView extends JPanel implements ActionListener{
        		
         		if (zoomOut){
         			ch = maze.get(row, col).getType();
-        			if (ch == 'p' || ch == 'm'){
+        			if (ch == 'p' || ch == '7' || ch=='6' || ch=='8' || ch=='9'){
 	        			if (row == currentRow && col == currentCol){
 	        				g2.setColor(Color.YELLOW);
 	        			}else{
@@ -88,9 +88,18 @@ public class GameView extends JPanel implements ActionListener{
     			else if(ch == 'h')
     			{
     				imageIndex = 2;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
-    			}else if(ch == 'm')
+    			}else if(ch == '6')
     			{
     				imageIndex = 6;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}else if(ch == '7')
+    			{
+    				imageIndex = 7;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}else if(ch == '8')
+    			{
+    				imageIndex = 8;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+    			}else if(ch == '9')
+    			{
+    				imageIndex = 9;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
     			}
     			else if(ch == 'b')
     			{

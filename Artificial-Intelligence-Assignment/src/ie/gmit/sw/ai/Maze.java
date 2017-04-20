@@ -1,41 +1,37 @@
 package ie.gmit.sw.ai;
 
-import java.nio.file.NotDirectoryException;
 import java.util.ArrayList;
 
 import ie.gmit.sw.characters.Enemy;
 import ie.gmit.sw.node.Node;
-import ie.gmit.sw.node.NodeType;
-import ie.gmit.sw.node.Weapon;
-import ie.gmit.sw.weapons.Sword;
 
 public class Maze {
 	private Node[][] maze;
-	public static ArrayList<Enemy> enemyArray;
+	public static ArrayList<Enemy> enemyArray = new ArrayList<>();
 	
 	public Maze(int dimension){
 		maze = new Node[dimension][dimension];
 		init(); // Fills the entire map with hedges.
-		buildMaze(); // Overwrites hedges to spaces.
-		enemyArray = new ArrayList<>();
+		buildMaze(); // Overwrites hedges to spaces on random location.
 		
-		int featureNumber = (int)((dimension * dimension) * 0.01);
-		addFeature('\u0031', '0', featureNumber); //1 is a sword, 0 is a hedge
-		addFeature('\u0032', '0', featureNumber); //2 is help, 0 is a hedge
-		addFeature('\u0033', '0', featureNumber); //3 is a bomb, 0 is a hedge
-		addFeature('\u0034', '0', featureNumber); //4 is a hydrogen bomb, 0 is a hedge
+		addFeature('\u0031', '0', 5); //1 is a sword, 0 is a hedge
+		addFeature('\u0032', '0', 3); //2 is help, 0 is a hedge
+		addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
+		addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
 
-		addFeature('\u0036', '0', featureNumber); //6 is a Black Spider, 0 is a hedge
-		addFeature('\u0037', '0', featureNumber); //7 is a Blue Spider, 0 is a hedge
-		addFeature('\u0038', '0', featureNumber); //8 is a Brown Spider, 0 is a hedge
-		addFeature('\u0039', '0', featureNumber); //9 is a Green Spider, 0 is a hedge
-		addFeature('\u003A', '0', featureNumber); //: is a Grey Spider, 0 is a hedge
-		addFeature('\u003B', '0', featureNumber); //; is a Orange Spider, 0 is a hedge
-		addFeature('\u003C', '0', featureNumber); //< is a Red Spider, 0 is a hedge
-		addFeature('\u003D', '0', featureNumber); //= is a Yellow Spider, 0 is a hedge
+		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
+		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
+		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
+		
+		
+		/*addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge
+		addFeature('\u003B', '0', 1); //; is a Orange Spider, 0 is a hedge
+		addFeature('\u003C', '0', 1); //< is a Red Spider, 0 is a hedge
+		addFeature('\u003D', '0', 1); //= is a Yellow Spider, 0 is a hedge */
 	}
 	
-	private void init(){
+	private void init(){// Populates the map with hedges/walls 
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
 				maze[row][col] = new Node(row,col, 'w');
@@ -43,64 +39,78 @@ public class Maze {
 		}
 	}
 	
-	private void recursiveAddFeature(char feature){
+	// Add enemies to the map.
+	private void recursiveAddFeature(int feature_n, int number, int counter){
 		
-		int feature_n = Character.getNumericValue(feature);
-		
-		int row = (int) (maze.length * Math.random());
-		int col = (int) (maze[0].length * Math.random());
+		if(counter < number){
+			int row = (int) (maze.length * Math.random());
+			int col = (int) (maze[0].length * Math.random());
 
-		if(feature_n != 0){// Create the enemy
-			maze[row][col].setType('m');
-			
+			if(feature_n == 6)
+				maze[row][col].setType('6');
+			else if(feature_n == 7)
+				maze[row][col].setType('7');
+			else if(feature_n == 8)
+				maze[row][col].setType('8');
+			else if (feature_n == 9)
+				maze[row][col].setType('9');
+				
 			Enemy spuderMan = new Enemy(col, row);
 			spuderMan.setHealth(120);	
 			
 			enemyArray.add(spuderMan);
 			maze[row][col].setEnemy(spuderMan);
 			
-		}else{
-			recursiveAddFeature(feature);
+			counter++;
+			
+			recursiveAddFeature(feature_n, number,counter);
 		}
 	}
 	
-	private void recursiveAddItem(char feature) {
-		
-		int feature_n = Character.getNumericValue(feature);
-		
+	private void recursiveAddItem(int feature_n, char replace, int number, int counter) {
+
+		// Generate a random location on the map.
 		int row = (int) (maze.length * Math.random());
 		int col = (int) (maze[0].length * Math.random());
 
-		if(feature_n != 0){// Create the enemy
-			maze[row][col].setType('s');
+		// Create the sword if not a hedge, is replace and 
+		//the number created is less than needed.
+		if(feature_n != 0 && replace == '0' && counter < number){
+			if(feature_n == 1)//sword
+				maze[row][col].setType('s');
+			else if(feature_n == 2)//help
+				maze[row][col].setType('h');
+			else if(feature_n == 3)//bomb
+				maze[row][col].setType('b');
+			else if(feature_n == 4)//h bomb
+				maze[row][col].setType('o');
 			
-			Sword sword = new Sword(30, NodeType.Sword);
-		}else{
-			recursiveAddFeature(feature);
+			counter++;
+			
+			recursiveAddItem(feature_n, '0', number, counter);
 		}
-		
 	}
 	
 	private void addFeature(char feature, char replace, int number){
 		int feature_n = Character.getNumericValue(feature);
+		System.out.println(feature_n);
 		
-		if(feature_n > 5)
-		{
-			if(feature_n != 0){
-				recursiveAddFeature(feature);
+		if(feature_n > 5){// If its not an item
+			if(feature_n != 0 && replace == '0'){ // If not a hedge & overwrite
+				recursiveAddFeature(feature_n, number, 0);
 			}			
-		}else{
-			recursiveAddItem(feature);
+		}else{// It is an item
+			recursiveAddItem(feature_n, replace, number, 0);
 		}
 	}
 
-	private void buildMaze(){ 
+	private void buildMaze(){ // Overwrite hedges with a path using empty spaces.
 		for (int row = 1; row < maze.length - 1; row++){
 			for (int col = 1; col < maze[row].length - 1; col++){
 				int num = (int) (Math.random() * 10);
 				
 				if (num > 5 && col + 1 < maze[row].length - 1){
-					maze[row][col + 1].setType('e'); //e = SPACE
+					maze[row][col + 1].setType('e'); //e = empty block
 				}else{
 					if (row + 1 < maze.length - 1)maze[row + 1][col].setType('e');
 				}
@@ -129,7 +139,7 @@ public class Maze {
 		StringBuffer sb = new StringBuffer();
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
-				sb.append(maze[row][col]);
+				sb.append(maze[row][col].getType());
 				if (col < maze[row].length - 1) sb.append(",");
 			}
 			sb.append("\n");

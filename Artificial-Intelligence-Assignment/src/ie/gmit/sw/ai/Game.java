@@ -29,7 +29,6 @@ public class Game implements KeyListener{
 	public Game() throws Exception
 	{
 		maze = new Maze(MAZE_DIMENSION);// Generate new Maze.
-		
     	gameView = new GameView(maze); // Create game view from the maze.
     	
     	Sprite[] sprites = getSprites();
@@ -53,13 +52,12 @@ public class Game implements KeyListener{
         f.pack();
         f.setVisible(true);
         
-        //System.out.println(maze.toString()); 
-
+        System.out.println(maze.toString());
+        
         Node targetNode = new Node(spartan.getPos_y(),spartan.getPos_x(),'p');
         targetNode.setGoalNode(true);
           
         Traversator t = new RandomWalk();
-        Node[][] mapsss = new Node[GameView.DEFAULT_VIEW_SIZE][GameView.DEFAULT_VIEW_SIZE];
         Node spider2 = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm');
         
         t.traverse(maze.getMaze(), spider2);
@@ -122,11 +120,11 @@ public class Game implements KeyListener{
 		}else if(maze.get(row, col).getType() == 's'){ // Sword Replace
 			System.out.println("Sword Encountered....");// Add the sword to inventory
 			
-			Sword sword = new Sword(30, NodeType.Sword); // Create the sword
-			spartan.addtoInventory(sword);
+			Sword sword = new Sword(30, NodeType.Sword); // Create the sword.
+			spartan.addtoInventory(sword); // Add the sword to the inventory.
 			
-			maze.set(currentRow, currentCol, 'p');
-			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'p'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else if(maze.get(row, col).getType() == 'b'){ // Bomb Replace
 			System.out.println("Bomb Encountered....");
@@ -134,8 +132,8 @@ public class Game implements KeyListener{
 			Bomb bomb = new Bomb(100, NodeType.Bomb); // Create the bomb
 			spartan.addtoInventory(bomb);// Add the bomb to inventory
 			
-			maze.set(currentRow, currentCol, 'p');
-			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'p'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else if(maze.get(row, col).getType() == 'o'){ //HBomb Replace
 			System.out.println("HBomb Encountered....");
@@ -143,13 +141,13 @@ public class Game implements KeyListener{
 			HBomb hbomb = new HBomb(100, NodeType.HBomb); // Create the bomb
 			spartan.addtoInventory(hbomb);// Add the bomb to inventory
 			
-			maze.set(currentRow, currentCol, 'p');
-			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'p'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else if(maze.get(row, col).getType() == 'h'){ //Help encountered
 			System.out.println("Help Encountered....");
-			maze.set(currentRow, currentCol, 'p');
-			maze.set(row, col, 'e'); //Pick Item, Replace with Spartan sprite
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'p'); //Pick Item, Replace with Spartan sprite
 			return true;
 		}else{
 			return false; //Can't move
