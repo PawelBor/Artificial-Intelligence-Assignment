@@ -2,6 +2,7 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.node.Node;
 import ie.gmit.sw.traversor.AStarTraversator;
+import ie.gmit.sw.traversor.DepthLimitedDFSTraversator;
 import ie.gmit.sw.traversor.RandomWalk;
 import ie.gmit.sw.traversor.Traversator;
 
@@ -37,6 +38,17 @@ public class ThreadedPathfinding implements Runnable{
 	        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');       
 	        try {
 				aStar.traverse(maze.getMaze(), blueSpider);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(algorithm.equals("depthFirst")){
+			System.out.println("T3");
+	        target.setGoalNode(true);
+	        Traversator DepthLimited = new DepthLimitedDFSTraversator(999999);
+	        Node brownSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
+	        try {
+	        	DepthLimited.traverse(maze.getMaze(), brownSpider);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -42,7 +42,7 @@ public class AStarTraversator implements Traversator{
 			}
 			
 			try { //Simulate processing each expanded node
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			}catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -80,8 +80,8 @@ public class AStarTraversator implements Traversator{
     	
 		}else if(GameView.maze.get(node.getRow(), node.getCol()).getType() == 's' || GameView.maze.get(node.getRow(), node.getCol()).getType() == 'b'
 				||GameView.maze.get(node.getRow(), node.getCol()).getType() == 'o' || GameView.maze.get(node.getRow(), node.getCol()).getType() == 'h'){
-			GameView.maze.set(prevMove.getRow(), prevMove.getCol(), 'e');
-    		GameView.maze.set(node.getRow(), node.getCol(), '6');
+			GameView.maze.set(prevMove.getRow(), prevMove.getCol(), GameView.maze.get(node.getRow(), node.getCol()).getType());
+    		GameView.maze.set(node.getRow(), node.getCol(), '7');
 		}
     }
 

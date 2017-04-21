@@ -23,7 +23,7 @@ public class Maze {
 		
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
-		//addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
 		//addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
 		
 		

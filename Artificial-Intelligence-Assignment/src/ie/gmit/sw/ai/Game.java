@@ -67,17 +67,19 @@ public class Game implements KeyListener{
 		Node targetNode = new Node(spartan.getPos_y(),spartan.getPos_x(),'p');
         targetNode.setGoalNode(true);
         
-        Node blackSpider = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm'); 
-    
         ExecutorService executor = Executors.newFixedThreadPool(4); 
         
+        Node blackSpider = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm'); 
         Runnable worker = new ThreadedPathfinding("randomWalk", blackSpider, maze, targetNode);  
         executor.execute(worker);//calling execute method of ExecutorService
 
         Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');
-       
         Runnable secondWorker = new ThreadedPathfinding("aStar", blueSpider, maze, targetNode);  
         executor.execute(secondWorker);//calling execute method of ExecutorService
+        
+        Node brownSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');
+        Runnable thirdWorker = new ThreadedPathfinding("depthFirst", brownSpider, maze, targetNode);  
+        executor.execute(thirdWorker);//calling execute method of ExecutorService
         
         executor.shutdown();  
         
