@@ -2,6 +2,7 @@ package ie.gmit.sw.ai;
 
 import ie.gmit.sw.node.Node;
 import ie.gmit.sw.traversor.AStarTraversator;
+import ie.gmit.sw.traversor.BasicHillClimbingTraversator;
 import ie.gmit.sw.traversor.DepthLimitedDFSTraversator;
 import ie.gmit.sw.traversor.RandomWalk;
 import ie.gmit.sw.traversor.Traversator;
@@ -24,7 +25,7 @@ public class ThreadedPathfinding implements Runnable{
 	public void run() {
 		if(algorithm.equals("randomWalk")){
 			System.out.println("T1");
-			Traversator randomWalk = new RandomWalk();
+			Traversator randomWalk = new RandomWalk(target);
 			try {
 				randomWalk.traverse(maze.getMaze(), spider);
 			} catch (InterruptedException e) {
@@ -35,13 +36,18 @@ public class ThreadedPathfinding implements Runnable{
 	        System.out.println("T2");
 	        target.setGoalNode(true);
 	        Traversator aStar = new AStarTraversator(target);
-	        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');       
+	        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), '7');       
 	        try {
 				aStar.traverse(maze.getMaze(), blueSpider);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	        
+	        
+	        Game.maze.set(Game.spartan.getPos_y(), Game.spartan.getPos_x(), 'x');
+	        
+	        Game.spartan.encounter(Maze.enemyArray.get(1));
 		}else if(algorithm.equals("depthFirst")){
 			System.out.println("T3");
 	        target.setGoalNode(true);
@@ -49,6 +55,17 @@ public class ThreadedPathfinding implements Runnable{
 	        Node brownSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
 	        try {
 	        	DepthLimited.traverse(maze.getMaze(), brownSpider);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else if(algorithm.equals("hillClimbing")){
+			System.out.println("T4");
+	        target.setGoalNode(true);
+	        Traversator hillClimbing = new BasicHillClimbingTraversator(target);
+	        Node greenSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
+	        try {
+	        	hillClimbing.traverse(maze.getMaze(), greenSpider);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

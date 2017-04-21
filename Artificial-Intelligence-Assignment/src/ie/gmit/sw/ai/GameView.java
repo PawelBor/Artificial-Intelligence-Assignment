@@ -79,17 +79,6 @@ public class GameView extends JPanel implements ActionListener{
 	        			}
         				g2.fillRect(x1, y1, size, size);
         			}
-        			
-        			if(ch == 's')
-        			{
-        				g2.setColor(Color.BLUE);
-        			}
-        			if(ch == 'b')
-        				g2.setColor(Color.BLACK);
-        			
-        			if(ch == 'o')
-        				g2.setColor(Color.cyan);
-        			
         		}else{
         			ch = maze.get(currentRow - cellpadding + row, currentCol - cellpadding + col).getType();
         		}
@@ -129,7 +118,10 @@ public class GameView extends JPanel implements ActionListener{
     			else if(ch == 'w')	
     			{
     				imageIndex = 0;g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
-    			}
+    			}else if(ch == 'x')//spider
+	    		{
+	    			imageIndex = 14; g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+	    		}
     			else if(ch == 'e')
 	    		{
 	    			g2.setColor(Color.LIGHT_GRAY);//Empty cell

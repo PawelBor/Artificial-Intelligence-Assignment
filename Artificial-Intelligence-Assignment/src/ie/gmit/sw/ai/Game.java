@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,10 +22,10 @@ import ie.gmit.sw.weapons.Sword;
 public class Game implements KeyListener{
 	
 	private static final int MAZE_DIMENSION = 50;
-	private static final int IMAGE_COUNT = 14;
+	private static final int IMAGE_COUNT = 15;
 	
 	private GameView gameView;
-	private Maze maze;
+	public static Maze maze;
 	public static Player spartan;
 	private int currentRow;
 	private int currentCol;
@@ -69,17 +70,24 @@ public class Game implements KeyListener{
         
         ExecutorService executor = Executors.newFixedThreadPool(4); 
         
-        Node blackSpider = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), 'm'); 
+        Node blackSpider = new Node(Maze.enemyArray.get(0).getPos_y(), Maze.enemyArray.get(0).getPos_x(), '6'); 
         Runnable worker = new ThreadedPathfinding("randomWalk", blackSpider, maze, targetNode);  
         executor.execute(worker);//calling execute method of ExecutorService
 
-        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');
+        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), '7');
         Runnable secondWorker = new ThreadedPathfinding("aStar", blueSpider, maze, targetNode);  
         executor.execute(secondWorker);//calling execute method of ExecutorService
         
-        Node brownSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), 'm');
+        /*
+        Node brownSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');
         Runnable thirdWorker = new ThreadedPathfinding("depthFirst", brownSpider, maze, targetNode);  
         executor.execute(thirdWorker);//calling execute method of ExecutorService
+        
+        
+        Node greenSpider = new Node(Maze.enemyArray.get(3).getPos_y(), Maze.enemyArray.get(3).getPos_x(), 'm');
+        Runnable FourthWorker = new ThreadedPathfinding("hillClimbing", greenSpider, maze, targetNode);  
+        executor.execute(FourthWorker);//calling execute method of ExecutorService
+        */
         
         executor.shutdown();  
         
@@ -140,11 +148,12 @@ public class Game implements KeyListener{
 		if (row <= maze.size() - 1 && col <= maze.size() - 1 && maze.get(row, col).getType() == 'e'){
 			maze.set(currentRow, currentCol, 'e');
 			maze.set(row, col, 'p');
+			spartan.setPos(col, row);
 			return true;
 		}else if(maze.get(row, col).getType() == 's'){ // Sword Replace
 			System.out.println("Sword Encountered....");// Add the sword to inventory
 			
-			Sword sword = new Sword(30, NodeType.Sword); // Create the sword.
+			Sword sword = new Sword(new Random().nextInt(4)+2, NodeType.Sword); // Create the sword.
 			spartan.addtoInventory(sword); // Add the sword to the inventory.
 			
 			maze.set(currentRow, currentCol, 'e');
@@ -173,6 +182,12 @@ public class Game implements KeyListener{
 			maze.set(currentRow, currentCol, 'e');
 			maze.set(row, col, 'p'); //Pick Item, Replace with Spartan sprite
 			return true;
+		}else if(maze.get(row, col).getType() == '6' || maze.get(row, col).getType() == '7'
+				|| maze.get(row, col).getType() == '8'|| maze.get(row, col).getType() == '9'){ //Spider encountered
+			System.out.println("SPUDERMAN ENCOUNTERED....");
+			maze.set(currentRow, currentCol, 'e');
+			maze.set(row, col, 'x');
+			return true;
 		}else{
 			return false; //Can't move
 		}
@@ -197,6 +212,7 @@ public class Game implements KeyListener{
 		sprites[11] = new Sprite("Orange Spider", "resources/orange_spider_1.png", "resources/orange_spider_2.png");
 		sprites[12] = new Sprite("Red Spider", "resources/red_spider_1.png", "resources/red_spider_2.png");
 		sprites[13] = new Sprite("Yellow Spider", "resources/yellow_spider_1.png", "resources/yellow_spider_2.png");
+		sprites[14] = new Sprite("Fight Cloud", "resources/fight.png", "resources/fight_2.png");
 		return sprites;
 	}
 	

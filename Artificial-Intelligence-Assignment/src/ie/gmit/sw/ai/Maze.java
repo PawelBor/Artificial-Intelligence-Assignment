@@ -1,6 +1,7 @@
 package ie.gmit.sw.ai;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ie.gmit.sw.characters.Enemy;
 import ie.gmit.sw.node.Node;
@@ -15,19 +16,18 @@ public class Maze {
 		buildMaze(); // Overwrites hedges to spaces on random location.
 		
 		
-		addFeature('\u0031', '0', 50); //1 is a sword, 0 is a hedge
-		addFeature('\u0032', '0', 30); //2 is help, 0 is a hedge
-		//addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
-		//addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
+		addFeature('\u0031', '0', 5); //1 is a sword, 0 is a hedge
+		addFeature('\u0032', '0', 3); //2 is help, 0 is a hedge
+		addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
+		addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
 
 		
 		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
 		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
-		addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
+		//addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
 		//addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
-		
-		
 		/*addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge
+		 * 
 		addFeature('\u003B', '0', 1); //; is a Orange Spider, 0 is a hedge
 		addFeature('\u003C', '0', 1); //< is a Red Spider, 0 is a hedge
 		addFeature('\u003D', '0', 1); //= is a Yellow Spider, 0 is a hedge */
@@ -58,7 +58,9 @@ public class Maze {
 				maze[row][col].setType('9');
 				
 			Enemy spuderMan = new Enemy(col, row);
-			spuderMan.setHealth(120);	
+			spuderMan.setHealth(100);
+		
+			spuderMan.setDamage(new Random().nextInt(11));
 			
 			enemyArray.add(spuderMan);
 			maze[row][col].setEnemy(spuderMan);
@@ -95,7 +97,6 @@ public class Maze {
 	
 	private void addFeature(char feature, char replace, int number){
 		int feature_n = Character.getNumericValue(feature);
-		System.out.println(feature_n);
 		
 		if(feature_n > 5){// If its not an item
 			if(feature_n != 0 && replace == '0'){ // If not a hedge & overwrite

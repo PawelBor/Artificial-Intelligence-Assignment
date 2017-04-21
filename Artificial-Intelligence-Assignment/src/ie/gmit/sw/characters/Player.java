@@ -3,6 +3,9 @@ package ie.gmit.sw.characters;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
+import ie.gmit.sw.ai.Encounter;
 import ie.gmit.sw.node.*;
 
 public class Player extends Character implements Inventory{
@@ -28,6 +31,43 @@ public class Player extends Character implements Inventory{
 				inventory.remove(i);
 			}
 		}
+	}
+	
+	private int getInventoryCount(NodeType x)
+	{
+		int counter = 0;
+		
+		for (Item item : inventory) {
+			if(item.getType().equals(x)){
+				counter++;
+			}
+		}
+		
+		return counter;
+	}
+	
+	public boolean encounter(Enemy enemy){
+		System.out.println("Let's fight!");
+		/*
+		 * true = win,
+		 * false = lose
+		 */
+		
+		Encounter encoutner = Encounter.getInstance();
+		
+		int swordCount = getInventoryCount(NodeType.Sword);
+		int swordDamage = 0;
+		
+		if(swordCount != 0)
+			swordDamage = new Random().nextInt(40)+20;
+		
+		double victory = encoutner.getScore(enemy.getDamage(), swordDamage, getHealth());
+		
+		setHealth((int) (getHealth() * victory));
+		
+		System.out.println("NEW HEALTH: "+getHealth());
+		
+		return true;
 	}
 
 	@Override

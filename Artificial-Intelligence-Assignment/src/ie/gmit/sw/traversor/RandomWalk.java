@@ -5,6 +5,11 @@ import ie.gmit.sw.node.Node;
 
 public class RandomWalk implements Traversator{
 	
+	Node target = null;
+	
+	public RandomWalk(Node target){
+		this.target = target;
+	}
 	public void traverse(Node[][] maze, Node node) {
 		
 		
@@ -23,9 +28,11 @@ public class RandomWalk implements Traversator{
 			node.setVisited(true);	
 			visitCount++;
 		
-			if (node.isGoalNode()){
+			if (node.getCol() == target.getCol() && node.getRow() == target.getRow()){
+				
+				System.out.println("ACCSS");
 		        time = System.currentTimeMillis() - time; //Stop the clock
-		        //TraversatorStats.printStats(node, time, visitCount);
+		        TraversatorStats.printStats(node, time, visitCount);
 		        complete = true;
 				break;
 			}
