@@ -27,9 +27,8 @@ public class ThreadedPathfinding implements Runnable{
 			System.out.println("T1");
 			Traversator randomWalk = new RandomWalk(target);
 			try {
-				randomWalk.traverse(maze.getMaze(), spider);
+				randomWalk.traverse(maze.getMaze(), Maze.enemyArray.get(0));
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}else if (algorithm.equals("aStar")){
@@ -38,16 +37,12 @@ public class ThreadedPathfinding implements Runnable{
 	        Traversator aStar = new AStarTraversator(target);
 	        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), '7');       
 	        try {
-				aStar.traverse(maze.getMaze(), blueSpider);
+				aStar.traverse(maze.getMaze(), Maze.enemyArray.get(1));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	        
-	        
-	        Game.maze.set(Game.spartan.getPos_y(), Game.spartan.getPos_x(), 'x');
-	        
-	        Game.spartan.encounter(Maze.enemyArray.get(1));
+	        /*
 		}else if(algorithm.equals("depthFirst")){
 			System.out.println("T3");
 	        target.setGoalNode(true);
@@ -69,7 +64,7 @@ public class ThreadedPathfinding implements Runnable{
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 

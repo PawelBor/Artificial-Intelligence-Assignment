@@ -1,8 +1,9 @@
 package ie.gmit.sw.ai;
 
+import javax.swing.JOptionPane;
+
 import net.sourceforge.jFuzzyLogic.FIS;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
-import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 
 public class Encounter {
@@ -28,7 +29,7 @@ public class Encounter {
 		return instance;
 	} 	
 
-	public double getScore(int enemy_damage, int weapon_damage, int health){
+	public int getScore(int enemy_damage, int weapon_damage, int health){
 				
         fis.setVariable("enemy_damage", enemy_damage);
         fis.setVariable("weapon_damage", weapon_damage);
@@ -36,12 +37,43 @@ public class Encounter {
         fis.evaluate();        
         Variable score = functionBlock.getVariable("score");
         
-        System.out.println("Enemy Damage: " + enemy_damage 
+        System.out.println("Enemy Damage: " + enemy_damage
         			+ " Weapon Damage: " + weapon_damage 
         			+ " Health: " + health);
-		System.out.println("Score: " + score.getValue());
-		return score.getValue();
+
+        // Spartan takes damage
+        Game.spartan.takeDamage((enemy_damage*2));
+        
+        // Spider takes damage
+        Maze.enemyArray.get(1).takeDamage(weapon_damage);
+        
+        if(Game.spartan.getHealth() < 0)
+        	infoBox("You Died", "Game Over");
+        
+		System.out.println("Score: " + score.getValue()+" New health: "+Game.spartan.getHealth());
+		
+		return weapon_damage;
 	}
+	
+	public static void infoBox(String infoMessage, String titleBar)
+    {
+		Object[] options = {"Retry", "Exit"};
+        int n = JOptionPane.showOptionDialog(Game.f,
+                        infoMessage,
+                        titleBar,
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        options,
+                        options[0]);
+        if (n == JOptionPane.YES_OPTION) {
+        	
+        } else if (n == JOptionPane.NO_OPTION) {
+    		Game.f.dispose();
+        } else {
+
+        }
+    }
 	
 	
 }

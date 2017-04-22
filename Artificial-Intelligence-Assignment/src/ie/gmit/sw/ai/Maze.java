@@ -16,7 +16,7 @@ public class Maze {
 		buildMaze(); // Overwrites hedges to spaces on random location.
 		
 		
-		addFeature('\u0031', '0', 5); //1 is a sword, 0 is a hedge
+		addFeature('\u0031', '0', 45); //1 is a sword, 0 is a hedge
 		addFeature('\u0032', '0', 3); //2 is help, 0 is a hedge
 		addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
 		addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
@@ -60,7 +60,7 @@ public class Maze {
 			Enemy spuderMan = new Enemy(col, row);
 			spuderMan.setHealth(100);
 		
-			spuderMan.setDamage(new Random().nextInt(11));
+			spuderMan.setDamage(1+(int)(Math.random() *((10 - 1) + 1)));
 			
 			enemyArray.add(spuderMan);
 			maze[row][col].setEnemy(spuderMan);

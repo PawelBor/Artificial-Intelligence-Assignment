@@ -8,4 +8,10 @@ public class Character extends Health{
 	{
 		setHealth(getHealth() - damage);
 	}
+	
+	public boolean isAlive(){
+		if(getHealth() < 0)
+			return false;		
+		return true;
+	}
 }

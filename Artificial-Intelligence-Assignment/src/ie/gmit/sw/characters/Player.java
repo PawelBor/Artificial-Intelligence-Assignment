@@ -46,14 +46,14 @@ public class Player extends Character implements Inventory{
 		return counter;
 	}
 	
-	public boolean encounter(Enemy enemy){
+	public int encounter(Enemy enemy){
 		System.out.println("Let's fight!");
 		/*
 		 * true = win,
 		 * false = lose
 		 */
 		
-		Encounter encoutner = Encounter.getInstance();
+		Encounter encounter = Encounter.getInstance();
 		
 		int swordCount = getInventoryCount(NodeType.Sword);
 		int swordDamage = 0;
@@ -61,13 +61,7 @@ public class Player extends Character implements Inventory{
 		if(swordCount != 0)
 			swordDamage = new Random().nextInt(40)+20;
 		
-		double victory = encoutner.getScore(enemy.getDamage(), swordDamage, getHealth());
-		
-		setHealth((int) (getHealth() * victory));
-		
-		System.out.println("NEW HEALTH: "+getHealth());
-		
-		return true;
+		return encounter.getScore(enemy.getDamage(), swordDamage, getHealth());
 	}
 
 	@Override

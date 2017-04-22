@@ -3,8 +3,11 @@ package ie.gmit.sw.traversor;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import ie.gmit.sw.ai.Encounter;
 import ie.gmit.sw.ai.Game;
 import ie.gmit.sw.ai.GameView;
+import ie.gmit.sw.ai.Maze;
+import ie.gmit.sw.characters.Enemy;
 import ie.gmit.sw.node.Node;
 public class AStarTraversator implements Traversator{
 	private Node goal;
@@ -13,7 +16,10 @@ public class AStarTraversator implements Traversator{
 		this.goal = goal;
 	}
 	
-	public void traverse(Node[][] maze, Node node) {
+	public void traverse(Node[][] maze, Enemy enemy) throws InterruptedException {
+		
+		Node node = new Node(enemy.getPos_x(),enemy.getPos_y(), 'e');
+		
         long time = System.currentTimeMillis();
     	int visitCount = 0;
     	
@@ -24,28 +30,41 @@ public class AStarTraversator implements Traversator{
 		java.util.List<Node> closed = new ArrayList<Node>();
     	   	
 		Node firstNode = node;
-		
+		Node prevMove = null;
+
+		boolean isKilled = false;
 		
 		open.offer(node);
 		node.setPathCost(0);		
 		while(!open.isEmpty()){
 			
-			
+			// Has the player found the spider
+			if(Game.found)
+			{
+			        // Clear the previous position of the spider.
+			        clear(prevMove.getRow(), prevMove.getCol(), 'e');
+					clear(node.getRow(), node.getCol(), 'e');
+					
+			        while(Game.spartan.isAlive() && !isKilled || enemy.isAlive() && !isKilled){
+			        	int weaponDamage = encounterSpartan();
+			        	isKilled = encounterSpider(enemy, weaponDamage);
+			        	Thread.sleep(1000);
+			        }
+		    		
+					break;
+			}
+
+			// Keep the goal node updated from the game class.
 			goal = new Node(Game.spartan.getPos_y(),Game.spartan.getPos_x(), 'p');
-			//System.out.println(goal.getCol() + " " + goal.getRow());
-			Node prevMove = node;
+			
+			prevMove = node;
 			node = open.poll();		
 			closed.add(node);
 			node.setVisited(true);	
 			visitCount++;
-	
-			
-			
-			try { //Simulate processing each expanded node
-				Thread.sleep(200);
-			}catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+
+			//Simulate processing each expanded node
+			Thread.sleep(1000);
 			
 			// Process adjacent nodes
 			Node[] children = node.children(maze);
@@ -73,13 +92,40 @@ public class AStarTraversator implements Traversator{
 			if (node.getCol() == goal.getCol() && node.getRow() == goal.getRow()){
 		        time = System.currentTimeMillis() - time; //Stop the clock
 		        TraversatorStats.printStats(node, time, visitCount);
-		 
-		        GameView.maze.set(prevMove.getRow(), prevMove.getCol(), 'e');
-	    		GameView.maze.set(node.getRow(), node.getCol(), 'e');
+		        
+		        // Clear the previous position of the spider.
+		        clear(prevMove.getRow(), prevMove.getCol(), 'e');
+				clear(node.getRow(), node.getCol(), 'e');
+				
+		        while(Game.spartan.isAlive() && !isKilled || enemy.isAlive() && !isKilled){
+		        	int weaponDamage = encounterSpartan();
+		        	isKilled = encounterSpider(enemy, weaponDamage);
+		        	Thread.sleep(1000);
+		        }
+	    		
 				break;
 			}
 			
 		}// end while
+		
+		clear(Game.spartan.getPos_y(), Game.spartan.getPos_x(), 'p');
+	}
+	
+	private boolean encounterSpider(Enemy enemy, int damage) {
+		enemy.takeDamage(damage);
+		if(!enemy.isAlive()){
+			return true;
+		}
+		return false;
+	}
+
+	private void clear(int pos_y, int pos_x, char x){
+		GameView.maze.set(pos_y,pos_x, x);
+	}
+	
+	private int encounterSpartan(){
+		Game.maze.set(Game.spartan.getPos_y(), Game.spartan.getPos_x(), 'x');
+        return Game.spartan.encounter(Maze.enemyArray.get(1));
 	}
 	
 	public void enemyMovement(Node node, Node prevMove,Node firstNode)

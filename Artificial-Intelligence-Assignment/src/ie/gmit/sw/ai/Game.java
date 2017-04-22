@@ -4,18 +4,15 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import ie.gmit.sw.characters.Player;
 import ie.gmit.sw.node.Node;
 import ie.gmit.sw.node.NodeType;
-import ie.gmit.sw.traversor.AStarTraversator;
-import ie.gmit.sw.traversor.RandomWalk;
-import ie.gmit.sw.traversor.Traversator;
 import ie.gmit.sw.weapons.Bomb;
 import ie.gmit.sw.weapons.HBomb;
 import ie.gmit.sw.weapons.Sword;
@@ -29,6 +26,8 @@ public class Game implements KeyListener{
 	public static Player spartan;
 	private int currentRow;
 	private int currentCol;
+	public static boolean found = false;
+	public static JFrame f;
 	
 	public Game() throws Exception
 	{
@@ -46,7 +45,7 @@ public class Game implements KeyListener{
     	gameView.setMaximumSize(d);
     	gameView.setCurrentPosition(spartan.getPos_y(),spartan.getPos_x());
     	
-    	JFrame f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
+    	f = new JFrame("GMIT - B.Sc. in Computing (Software Development)");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.addKeyListener(this);
         f.getContentPane().setLayout(new FlowLayout());
@@ -153,7 +152,7 @@ public class Game implements KeyListener{
 		}else if(maze.get(row, col).getType() == 's'){ // Sword Replace
 			System.out.println("Sword Encountered....");// Add the sword to inventory
 			
-			Sword sword = new Sword(new Random().nextInt(4)+2, NodeType.Sword); // Create the sword.
+			Sword sword = new Sword(3+(int)(Math.random() *((7 - 3) + 1)), NodeType.Sword); // Create the sword.
 			spartan.addtoInventory(sword); // Add the sword to the inventory.
 			
 			maze.set(currentRow, currentCol, 'e');
@@ -185,6 +184,7 @@ public class Game implements KeyListener{
 		}else if(maze.get(row, col).getType() == '6' || maze.get(row, col).getType() == '7'
 				|| maze.get(row, col).getType() == '8'|| maze.get(row, col).getType() == '9'){ //Spider encountered
 			System.out.println("SPUDERMAN ENCOUNTERED....");
+			found = true;
 			maze.set(currentRow, currentCol, 'e');
 			maze.set(row, col, 'x');
 			return true;

@@ -9,7 +9,6 @@ FUNCTION_BLOCK Encounter
 	VAR_OUTPUT
 		score : REAL;
 	END_VAR
-
 	
 	FUZZIFY enemy_damage
 		// 0 - 100
@@ -39,7 +38,6 @@ FUNCTION_BLOCK Encounter
 		METHOD : COG;
 		DEFAULT := 0;
 	END_DEFUZZIFY
-
 
 	RULEBLOCK No1
 		RULE 1 : IF enemy_damage IS low OR weapon_damage IS high THEN score IS excellent;
