@@ -1,10 +1,9 @@
 package ie.gmit.sw.ai;
 
 import java.util.ArrayList;
-import java.util.Random;
 
-import ie.gmit.sw.characters.Enemy;
-import ie.gmit.sw.node.Node;
+import ie.gmit.sw.ai.characters.Enemy;
+import ie.gmit.sw.ai.node.Node;
 
 public class Maze {
 	private Node[][] maze;
@@ -15,24 +14,35 @@ public class Maze {
 		init(); // Fills the entire map with hedges.
 		buildMaze(); // Overwrites hedges to spaces on random location.
 		
+		addFeature('\u0031', '0', 8); //2 is help, 0 is a hedge
 		
-		addFeature('\u0031', '0', 45); //1 is a sword, 0 is a hedge
-		addFeature('\u0032', '0', 3); //2 is help, 0 is a hedge
-		addFeature('\u0033', '0', 5); //3 is a bomb, 0 is a hedge
-		addFeature('\u0034', '0', 5); //4 is a hydrogen bomb, 0 is a hedge
-
-		
-		addFeature('\u0036', '0', 1); //6 is a Black Spider, 0 is a hedge
-		addFeature('\u0037', '0', 1); //7 is a Blue Spider, 0 is a hedge
-		//addFeature('\u0038', '0', 1); //8 is a Brown Spider, 0 is a hedge
-		//addFeature('\u0039', '0', 1); //9 is a Green Spider, 0 is a hedge
-		/*addFeature('\u003A', '0', 1); //: is a Grey Spider, 0 is a hedge
-		 * 
-		addFeature('\u003B', '0', 1); //; is a Orange Spider, 0 is a hedge
-		addFeature('\u003C', '0', 1); //< is a Red Spider, 0 is a hedge
-		addFeature('\u003D', '0', 1); //= is a Yellow Spider, 0 is a hedge */
+		addEnemy('6', '0', 1); //6 is a Black Spider, 0 is a hedge
+		addEnemy('7', '0', 1); //7 is a Blue Spider, 0 is a hedge
 	}
 	
+	private void addEnemy(char spiderType, char overwrite, int numer) {
+		
+		int row = (int) (maze.length * Math.random());
+		int col = (int) (maze[0].length * Math.random());
+
+		if(spiderType == '6')
+			maze[row][col].setType('6');
+		else if(spiderType == '7')
+			maze[row][col].setType('7');
+		else if(spiderType == '8')
+			maze[row][col].setType('8');
+		else if (spiderType == '9')
+			maze[row][col].setType('9');
+			
+		Enemy spider = new Enemy(row, col); // Create the spider
+		spider.setHealth(100); // Set the health
+		spider.setDamage(1+(int)(Math.random() *((10 - 1) + 1))); // Set damage
+		
+		enemyArray.add(spider);
+		maze[row][col].setEnemy(spider);
+		
+	}
+
 	private void init(){// Populates the map with hedges/walls 
 		for (int row = 0; row < maze.length; row++){
 			for (int col = 0; col < maze[row].length; col++){
@@ -41,32 +51,51 @@ public class Maze {
 		}
 	}
 	
-	// Add enemies to the map.
-	private void recursiveAddFeature(int feature_n, int number, int counter){
+	private void addSword(int count){
+		int counter = 0;
 		
-		if(counter < number){
+		while(count <= counter){
 			int row = (int) (maze.length * Math.random());
 			int col = (int) (maze[0].length * Math.random());
+			
+			if(!(get(col , row).getType() != 'e'))// Use recursion if the square is not empty.
+			{
+				maze[row][col].setType('s');
+				counter++;
+			}
+		}
+	}
+	
+	// Add enemies to the map.
+	private void recursiveAddFeature(int feature_n, int number, int counter){
+		System.out.println(counter);
+		if(counter < number){
 
+			int row = (int) (maze.length * Math.random());
+			int col = (int) (maze[0].length * Math.random());
+			
+			// Check if the random position is an empty square.
+	    	if(get(col , row).getType() != 'e')// Use recursion if the square is not empty.
+	    		recursiveAddFeature(feature_n, number, counter); 
+
+	    	counter++;
+	    	
 			if(feature_n == 6)
-				maze[row][col].setType('6');
+				maze[col][row].setType('6');
 			else if(feature_n == 7)
-				maze[row][col].setType('7');
+				maze[col][row].setType('7');
 			else if(feature_n == 8)
-				maze[row][col].setType('8');
+				maze[col][row].setType('8');
 			else if (feature_n == 9)
-				maze[row][col].setType('9');
+				maze[col][row].setType('9');
 				
-			Enemy spuderMan = new Enemy(col, row);
-			spuderMan.setHealth(100);
-		
-			spuderMan.setDamage(1+(int)(Math.random() *((10 - 1) + 1)));
+			Enemy spider = new Enemy(col, row); // Create the spider
+			spider.setHealth(100); // Set the health
+			spider.setDamage(1+(int)(Math.random() *((10 - 1) + 1))); // Set damage
 			
-			enemyArray.add(spuderMan);
-			maze[row][col].setEnemy(spuderMan);
-			
-			counter++;
-			
+			enemyArray.add(spider);
+			maze[row][col].setEnemy(spider);
+
 			recursiveAddFeature(feature_n, number,counter);
 		}
 	}
@@ -76,9 +105,14 @@ public class Maze {
 		// Generate a random location on the map.
 		int row = (int) (maze.length * Math.random());
 		int col = (int) (maze[0].length * Math.random());
+		
+		// Check if the random position is an empty square.
+    	if(get(row, col).getType() != 'e')
+    		recursiveAddItem(feature_n, replace, number, counter); // Use recursion if the square is not empty.
+
 
 		// Create the sword if not a hedge, is replace and 
-		//the number created is less than needed.
+		// the number created is less than needed.
 		if(feature_n != 0 && replace == '0' && counter < number){
 			if(feature_n == 1)//sword
 				maze[row][col].setType('s');

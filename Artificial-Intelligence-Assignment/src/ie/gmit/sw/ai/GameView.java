@@ -16,11 +16,10 @@ public class GameView extends JPanel implements ActionListener{
 	private int currentCol;
 	private boolean zoomOut = false;
 	private int imageIndex = 0;
-	private int offset = 48; //The number 0 is ASCII 48.
 	private Color[] reds = {new Color(255,160,122), new Color(139,0,0), new Color(255, 0, 0)}; //Animate enemy "dots" to make them easier to see
 	
 	public GameView(Maze maze) throws Exception{
-		this.maze = maze;
+		GameView.maze = maze;
 		setBackground(Color.LIGHT_GRAY);
 		setDoubleBuffered(true);
 		timer = new Timer(300, this);
@@ -69,8 +68,8 @@ public class GameView extends JPanel implements ActionListener{
        		
         		if (zoomOut){
         			ch = maze.get(row, col).getType();
-        			
-        			if (ch == 'p' || ch == '7' || ch=='6' || ch=='8' || ch=='9' || ch == 's'){
+ 
+        			if (ch == 'p' || ch == '7' || ch=='6' || ch=='8' || ch=='9' || ch == 's' ){
 	        			if (row == currentRow && col == currentCol){
 	        				g2.setColor(Color.YELLOW);
 	        			}else{
@@ -79,6 +78,8 @@ public class GameView extends JPanel implements ActionListener{
 	        			}
         				g2.fillRect(x1, y1, size, size);
         			}
+        			
+        			
         		}else{
         			ch = maze.get(currentRow - cellpadding + row, currentCol - cellpadding + col).getType();
         		}
@@ -121,6 +122,9 @@ public class GameView extends JPanel implements ActionListener{
     			}else if(ch == 'x')//spider
 	    		{
 	    			imageIndex = 14; g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
+	    		}else if(ch == 'k')// exit node
+	    		{
+	    			imageIndex = 15; g2.drawImage(sprites[imageIndex].getNext(), x1, y1, null);
 	    		}
     			else if(ch == 'e')
 	    		{

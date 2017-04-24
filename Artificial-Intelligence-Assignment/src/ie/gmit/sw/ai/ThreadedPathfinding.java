@@ -1,11 +1,9 @@
 package ie.gmit.sw.ai;
 
-import ie.gmit.sw.node.Node;
-import ie.gmit.sw.traversor.AStarTraversator;
-import ie.gmit.sw.traversor.BasicHillClimbingTraversator;
-import ie.gmit.sw.traversor.DepthLimitedDFSTraversator;
-import ie.gmit.sw.traversor.RandomWalk;
-import ie.gmit.sw.traversor.Traversator;
+import ie.gmit.sw.ai.node.Node;
+import ie.gmit.sw.ai.traversor.AStarTraversator;
+import ie.gmit.sw.ai.traversor.RandomWalk;
+import ie.gmit.sw.ai.traversor.Traversator;
 
 public class ThreadedPathfinding implements Runnable{
 
@@ -28,44 +26,53 @@ public class ThreadedPathfinding implements Runnable{
 			Traversator randomWalk = new RandomWalk(target);
 			try {
 				randomWalk.traverse(maze.getMaze(), Maze.enemyArray.get(0));
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}else if (algorithm.equals("aStar")){
 	        System.out.println("T2");
 	        target.setGoalNode(true);
-	        Traversator aStar = new AStarTraversator(target);
-	        Node blueSpider = new Node(Maze.enemyArray.get(1).getPos_y(), Maze.enemyArray.get(1).getPos_x(), '7');       
+	        Traversator aStar = new AStarTraversator(target);   
 	        try {
 				aStar.traverse(maze.getMaze(), Maze.enemyArray.get(1));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-	        /*
-		}else if(algorithm.equals("depthFirst")){
+		}
+		/*	
+		else if(algorithm.equals("depthFirst")){
 			System.out.println("T3");
 	        target.setGoalNode(true);
-	        Traversator DepthLimited = new DepthLimitedDFSTraversator(999999);
-	        Node brownSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
+	        Traversator DepthLimited = new DepthLimitedDFSTraversator(999999);      
 	        try {
-	        	DepthLimited.traverse(maze.getMaze(), brownSpider);
+	        	DepthLimited.traverse(maze.getMaze(), Maze.enemyArray.get(2));
 			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else if(algorithm.equals("hillClimbing")){
-			System.out.println("T4");
-	        target.setGoalNode(true);
-	        Traversator hillClimbing = new BasicHillClimbingTraversator(target);
-	        Node greenSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
-	        try {
-	        	hillClimbing.traverse(maze.getMaze(), greenSpider);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 		}
+		
+			else if(algorithm.equals("hillClimbing")){
+		System.out.println("T4");
+        target.setGoalNode(true);
+        Traversator hillClimbing = new BasicHillClimbingTraversator(target);
+        Node greenSpider = new Node(Maze.enemyArray.get(2).getPos_y(), Maze.enemyArray.get(2).getPos_x(), 'm');       
+        try {
+        	hillClimbing.traverse(maze.getMaze(), greenSpider);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 }
